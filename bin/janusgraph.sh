@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -x;
 # Returns the absolute path of this script regardless of symlinks
 abs_path() {
     # From: http://stackoverflow.com/a/246128
@@ -13,7 +13,7 @@ abs_path() {
     echo "$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 }
 
-BIN=`abs_path`
+BIN=/home/janus/bin
 GSRV_CONFIG_TAG=cassandra-es
 : ${CASSANDRA_STARTUP_TIMEOUT_S:=60}
 : ${CASSANDRA_SHUTDOWN_TIMEOUT_S:=60}
@@ -28,8 +28,8 @@ GSRV_CONFIG_TAG=cassandra-es
 : ${GSRV_IP:=127.0.0.1}
 : ${GSRV_PORT:=8182}
 
-: ${SLEEP_INTERVAL_S:=2}
-VERBOSE=
+: ${SLEEP_INTERVAL_S:=10}
+VERBOSE=YES
 COMMAND=
 
 # Locate the jps command.  Check $PATH, then check $JAVA_HOME/bin.
@@ -45,7 +45,6 @@ done
 
 if [ -z "$JPS" ]; then
     echo "jps command not found.  Put the JDK's jps binary on the command path." >&2
-    exit 1
 fi
 
 GREMLIN_FRIENDLY_NAME='Gremlin-Server'
@@ -142,16 +141,6 @@ start() {
     }
 
     status_class $ES_FRIENDLY_NAME $ES_CLASS_NAME >/dev/null && status && echo "Stop services before starting" && exit 1
-    echo "Forking Elasticsearch..."
-    if [ -n "$VERBOSE" ]; then
-        "$BIN"/../elasticsearch/bin/elasticsearch -d
-    else
-        "$BIN"/../elasticsearch/bin/elasticsearch -d >/dev/null 2>&1
-    fi
-    wait_for_startup Elasticsearch $ELASTICSEARCH_IP $ELASTICSEARCH_PORT $ELASTICSEARCH_STARTUP_TIMEOUT_S || {
-        echo "See $BIN/../log/elasticsearch.log for Elasticsearch log output."  >&2
-        return 1
-    }
 
     status_class $GREMLIN_FRIENDLY_NAME $GREMLIN_CLASS_NAME >/dev/null && status && echo "Stop services before starting" && exit 1
     echo "Forking Gremlin-Server..."
@@ -164,9 +153,10 @@ start() {
         echo "See $BIN/../log/gremlin-server.log for Gremlin-Server log output."  >&2
         return 1
     }
-    disown
-
+    #disown
     echo "Run gremlin.sh to connect." >&2
+    while [ : ] ; do sleep 20; done
+
 }
 
 stop() {
@@ -253,24 +243,4 @@ find_verb() {
     fi
     return 1
 }
-
-while [ 1 ]; do
-    if find_verb ${!OPTIND}; then
-        OPTIND=$(($OPTIND + 1))
-    elif getopts 'c:v' option; then
-        case $option in
-        c) GSRV_CONFIG_TAG="${OPTARG}";;
-        v) VERBOSE=yes;;
-        *) usage; exit 1;;
-        esac
-    else
-        break
-    fi
-done
-
-if [ -n "$COMMAND" ]; then
-    $COMMAND
-else
-    usage
-    exit 1
-fi
+start;

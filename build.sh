@@ -9,9 +9,16 @@ fi
 
 rm -rf janusgraph-0.2.2-hadoop2
 unzip janusgraph-0.2.2-hadoop2.zip
-cp bin/janusgraph.sh janusgraph-0.2.2-hadoop2/bin/janusgraph.sh
+#scripts
+cp bin/janusgraph.sh     janusgraph-0.2.2-hadoop2/bin/janusgraph.sh
+cp bin/gremlin-server.sh janusgraph-0.2.2-hadoop2/bin/gremlin-server.sh
+cp bin/checksocket.sh    janusgraph-0.2.2-hadoop2/bin/checksocket.sh
+cp bin/checkconfig.sh    janusgraph-0.2.2-hadoop2/bin/checkconfig.sh
+cp bin/cassandra.in.sh   janusgraph-0.2.2-hadoop2/bin/cassandra.in.sh
+cp bin/cassandra         janusgraph-0.2.2-hadoop2/bin/cassandra
+#docker
 cp bin/Dockerfile janusgraph-0.2.2-hadoop2/Dockerfile
-
+#kachara delete
 cd janusgraph-0.2.2-hadoop2
 rm -rf examples
 rm -rf javadocs
@@ -21,7 +28,6 @@ rm -rf db/cassandra/saved_caches
 rm -f lib/logback-classic-1.1.2.jar
 rm -f bin/gremlin.bat
 rm -f bin/gremlin-server.bat
-
 
 cat >scripts/init.groovy <<EOF
 def globals = [:]
@@ -52,4 +58,4 @@ bin/gremlin-server.sh -i org.apache.tinkerpop gremlin-python 3.2.9
 
 sudo docker build -t myjanus:2 .
 #sudo docker run -p 8182:8182 --mount source=myvol2,target=/home/janus/db myjanus:2
-
+sudo docker run -i myjanus:2 /bin/sh
