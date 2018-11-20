@@ -1,15 +1,25 @@
+
 set -x
+if [ ! -f janusgraph-0.2.2-hadoop2.zip ]; then
+    wget https://github.com/JanusGraph/janusgraph/releases/download/v0.2.2/janusgraph-0.2.2-hadoop2.zip 
+fi
 if [ -f janusgraph-0.2.2-hadoop2/bin/janusgraph.sh ]; then
     cd janusgraph-0.2.2-hadoop2/; bin/janusgraph.sh stop; cd ..
 fi
+
 rm -rf janusgraph-0.2.2-hadoop2
 unzip janusgraph-0.2.2-hadoop2.zip
 cd janusgraph-0.2.2-hadoop2
+
+rm -rf examples
+rm -rf javadocs
 rm -rf db/cassandra/data
 rm -rf db/cassandra/commitlog
 rm -rf db/cassandra/saved_caches
-cat >scripts/init.groovy <<EOF
+rm -rf lib/logback-classic-1.1.2.jar
 
+
+cat >scripts/init.groovy <<EOF
 def globals = [:]
 def gc = 0;
 def gsize = ConfiguredGraphFactory.getConfigurations().size();
