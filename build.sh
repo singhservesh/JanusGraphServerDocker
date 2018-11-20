@@ -29,6 +29,18 @@ rm -f lib/logback-classic-1.1.2.jar
 rm -f bin/gremlin.bat
 rm -f bin/gremlin-server.bat
 
+
+rm -f lib/janusgraph-berkeleyje-0.2.2.jar
+rm -f lib/janusgraph-solr-0.2.2.jar
+rm -f lib/janusgraph-lucene-0.2.2.jar
+rm -f lib/janusgraph-hbase-0.2.2.jar
+rm -f lib/janusgraph-bigtable-0.2.2.jar
+rm -f lib/janusgraph-es-0.2.2.jar
+rm -f lib/scala-compiler-2.10.0.jar
+rm -f lib/bigtable-hbase-1.x-shaded-1.0.0.jar
+rm -f lib/hbase-shaded-client-1.2.6.jar
+
+
 cat >scripts/init.groovy <<EOF
 def globals = [:]
 def gc = 0;
@@ -57,5 +69,6 @@ cd ../../
 bin/gremlin-server.sh -i org.apache.tinkerpop gremlin-python 3.2.9
 
 sudo docker build -t myjanus:2 .
+sudo docker images
 #sudo docker run -p 8182:8182 --mount source=myvol2,target=/home/janus/db myjanus:2
-sudo docker run -i myjanus:2 /bin/sh
+#sudo docker run -i myjanus:2 /bin/sh
