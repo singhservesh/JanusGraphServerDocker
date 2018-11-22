@@ -16,7 +16,7 @@ stop:
 	if [ $$exitcode -eq 0 ]; then \
 	     sudo docker container  ps | grep "$(IMAGE_ID)" | cut -c1-15 | xargs sudo docker container stop; \
 	fi;\
-	exitcode=1; sudo docker container inspect $(CONTAINER_NAME) >>/dev/null 2>>1; exitcode=$$?;\
+	exitcode=1; sudo docker container inspect $(CONTAINER_NAME) >>/dev/null 2>&1; exitcode=$$?;\
 	if [ $$exitcode -eq 0 ]; then \
 	    sudo docker rm $(CONTAINER_NAME);\
 	fi
@@ -27,13 +27,13 @@ run:stop
 
 delete:
 	@exitcode=1;\
-        sudo docker volume inspect $(IMAGE_VOLUME)>>/dev/null 2>>1; exitcode=$$?;\
+        sudo docker volume inspect $(IMAGE_VOLUME)>>/dev/null 2>&1; exitcode=$$?;\
 	if [ $$exitcode -eq 0 ]; then \
 	sudo docker volume rm $(IMAGE_VOLUME);\
 	echo Deleted image volume $(IMAGE_VOLUME);\
 	fi;\
 	exitcode=1;\
-	sudo docker image inspect $(IMAGE_ID)>>/dev/null 2>>1; exitcode=$$?;\
+	sudo docker image inspect $(IMAGE_ID)>>/dev/null 2>&1; exitcode=$$?;\
 	if [ $$exitcode -eq 0 ]; then \
 	sudo docker image rm  $(IMAGE_ID);\
 	echo Deleted image $(IMAGE_ID);\
@@ -42,7 +42,7 @@ delete:
 
 show:
 	@echo '\n------------------------------------------------- containers -----------------------------------\n';\
-	exitcode=1; sudo docker container inspect $(CONTAINER_NAME)>>/dev/null 2>>1;  exitcode=$$?;\
+	exitcode=1; sudo docker container inspect $(CONTAINER_NAME)>>/dev/null 2>&1;  exitcode=$$?;\
 	if [ $$exitcode -eq 0 ]; then \
 	    sudo docker container inspect $(CONTAINER_NAME);\
 	fi;\
