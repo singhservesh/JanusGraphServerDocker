@@ -1,14 +1,22 @@
+set -e;
+__tag__and__lable=$1
+echo $__tag__and__lable
+if [ ! $__tag__and__lable ]; then
+      echo "\tDocker target image label and tag is not given.\n\t\tUsage  $0  <label:tag>\n" ; exit 1;
+fi 
 
-set -x
+#Debug flag is given.
+set +x;
+if [ $2 ]; then
+set -x;
+fi;
+
 if [ ! -f janusgraph-0.2.2-hadoop2.zip ]; then
     wget https://github.com/JanusGraph/janusgraph/releases/download/v0.2.2/janusgraph-0.2.2-hadoop2.zip 
 fi
-if [ -f janusgraph-0.2.2-hadoop2/bin/janusgraph.sh ]; then
-    cd janusgraph-0.2.2-hadoop2/; bin/janusgraph.sh stop; cd ..
-fi
 
 rm -rf janusgraph-0.2.2-hadoop2
-unzip janusgraph-0.2.2-hadoop2.zip
+unzip janusgraph-0.2.2-hadoop2.zip >/dev/null
 #scripts
 cp bin/janusgraph.sh     janusgraph-0.2.2-hadoop2/bin/janusgraph.sh
 cp bin/gremlin-server.sh janusgraph-0.2.2-hadoop2/bin/gremlin-server.sh
@@ -22,6 +30,7 @@ cp bin/Dockerfile janusgraph-0.2.2-hadoop2/Dockerfile
 cd janusgraph-0.2.2-hadoop2
 rm -rf examples
 rm -rf javadocs
+rm -rf elasticsearch
 rm -rf db/cassandra/data
 rm -rf db/cassandra/commitlog
 rm -rf db/cassandra/saved_caches
@@ -39,7 +48,7 @@ rm -f lib/janusgraph-es-0.2.2.jar
 rm -f lib/scala-compiler-2.10.0.jar
 rm -f lib/bigtable-hbase-1.x-shaded-1.0.0.jar
 rm -f lib/hbase-shaded-client-1.2.6.jar
-
+rm -f lib/hbase-shaded-server-1.2.6.jar
 
 cat >scripts/init.groovy <<EOF
 def globals = [:]
@@ -68,7 +77,8 @@ sed -i 's/empty-sample.groovy\]\}\}/init.groovy\]},\ngremlin-python: \{\},\ngrem
 cd ../../
 bin/gremlin-server.sh -i org.apache.tinkerpop gremlin-python 3.2.9
 
-sudo docker build -t myjanus:2 .
+sudo docker build -t $1 .
 sudo docker images
 #sudo docker run -p 8182:8182 --mount source=myvol2,target=/home/janus/db myjanus:2
 #sudo docker run -i myjanus:2 /bin/sh
+echo '\n********* Generated image $__tag__and__lable **************\n'
