@@ -81,4 +81,4 @@ sudo docker build -t $1 .
 sudo docker images
 #sudo docker run -p 8182:8182 --mount source=myvol2,target=/home/janus/db myjanus:2
 #sudo docker run -i myjanus:2 /bin/sh
-echo '\n********* Generated image $__tag__and__lable **************\n'
+echo "\n********* Generated image $__tag__and__lable **************\n"
