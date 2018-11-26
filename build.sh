@@ -75,7 +75,27 @@ cd conf/gremlin-server/
 cp gremlin-server-configuration.yaml gremlin-server.yaml
 sed -i 's/empty-sample.groovy\]\}\}/init.groovy\]},\ngremlin-python: \{\},\ngremlin-jython: \{\}}/g' gremlin-server.yaml
 cd ../../
+
+#Remove libraries which are already present under janusgraph-0.2.2-hadoop2/lib
+#and link them with gremlin-python{plugin/lib}
 bin/gremlin-server.sh -i org.apache.tinkerpop gremlin-python 3.2.9
+for extFile in $(find ext/gremlin-python/lib -name *.jar) $(find ext/gremlin-python/plugin -name *.jar) ; do 
+    libFile=lib/$(basename $extFile); 
+    if [ -f $libFile ]; then
+       cmp $libFile $extFile && rm -f $extFile && ln -s ../../../$libFile $extFile; 
+    fi;  
+done
+#done linking files.
+
+#remove duplicate files and create link.
+cd ext/gremlin-python/
+for extFile in $(find lib -type f -name *.jar) ; do
+    pluginFile=plugin/$(basename $extFile);
+    if [ -f $pluginFile ]; then
+	 cmp $pluginFile $extFile && rm -f $pluginFile && ln -s ../$extFile $pluginFile;
+    fi;
+done
+cd ../../
 
 sudo docker build -t $1 .
 sudo docker images
