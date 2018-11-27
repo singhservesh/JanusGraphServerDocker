@@ -65,7 +65,7 @@ A step by step series of examples that tell you how to get a development env run
 Say what the step will be
 
 ```
-git clone 
+git clone git@github.com:singhservesh/JanusGraphServerDocker.git
 ```
 
 And repeat
@@ -126,9 +126,9 @@ This was tested on Ubuntu 16.04 LTS.
 
 ## Built With
 
-* [Dropasdfasdfwizard](http://www.dasdfasdfasdfropwizard.io/1.0.2/docs/) - The web framework used
+* [NA](http://www.NA.NANANANAN/1.0.2/docs/) - The web framework used
 * [Maven](https://maven.apache.org/) - Dependency Management
-* [ROasdfasdfME](https://rometools.github.io/singhservesh/) - Used to generate RSS Feeds
+* [root](https://github.com/singhservesh/) - Used to generate .....
 
 ## Contributing
 
