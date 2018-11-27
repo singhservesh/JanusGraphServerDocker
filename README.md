@@ -65,7 +65,11 @@ A step by step series of examples that tell you how to get a development env run
 Say what the step will be
 
 ```
+Clone source code using HTTPS:
+git clone https://github.com/singhservesh/JanusGraphServerDocker.git
+OR using SSH:
 git clone git@github.com:singhservesh/JanusGraphServerDocker.git
+
 ```
 
 And repeat
