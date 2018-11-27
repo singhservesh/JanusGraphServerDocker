@@ -1,15 +1,15 @@
 set -e;
+set +x;
+#Debug flag is given.
+if [ $2 ]; then
+set -x;
+fi;
 __tag__and__lable=$1
-echo $__tag__and__lable
+echo "Building docker image $__tag__and__lable"
 if [ ! $__tag__and__lable ]; then
       echo "\tDocker target image label and tag is not given.\n\t\tUsage  $0  <label:tag>\n" ; exit 1;
 fi 
 
-#Debug flag is given.
-set +x;
-if [ $2 ]; then
-set -x;
-fi;
 
 if [ ! -f janusgraph-0.2.2-hadoop2.zip ]; then
     wget https://github.com/JanusGraph/janusgraph/releases/download/v0.2.2/janusgraph-0.2.2-hadoop2.zip 
@@ -78,7 +78,7 @@ cd ../../
 
 #Remove libraries which are already present under janusgraph-0.2.2-hadoop2/lib
 #and link them with gremlin-python{plugin/lib}
-bin/gremlin-server.sh -i org.apache.tinkerpop gremlin-python 3.2.9
+bin/gremlin-server.sh -i org.apache.tinkerpop gremlin-python 3.2.9 >/dev/null 2>&1
 for extFile in $(find ext/gremlin-python/lib -name *.jar) $(find ext/gremlin-python/plugin -name *.jar) ; do 
     libFile=lib/$(basename $extFile); 
     if [ -f $libFile ]; then

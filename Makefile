@@ -5,7 +5,7 @@ IMAGE_VOLUME := $(IMAGE_LABEL)-$(IMAGE_TAG)-volume
 CONTAINER_NAME:= $(IMAGE_LABEL)-container
 
 all:stop
-	sh build.sh $(IMAGE_ID)  $(DEBUG_FLAG_EXPORTED)
+	@sh build.sh $(IMAGE_ID)  $(DEBUG_FLAG_EXPORTED)
 test:
 	echo $(IMAGE_ID)
 	python examples/test-gremlin-python.py

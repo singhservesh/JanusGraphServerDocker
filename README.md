@@ -1,9 +1,9 @@
 # JanusGraphServerDocker
 
-This is a Docker image for JanusGraph running under Gremlin Server with cassandra as backend store.
-JanusGraph server can work with gremlin.sh client and any other customized gremlin client. This also works with gremlin-python.
-This Janusgraph and Cassandra version is taken from janus-0.2.2-hadoop2.
-For python clients, use gremlin-python 3.2.9 drivers. One can write his own drivers also.
+This is Docker image for Janus Graph running under Gremlin Server with Cassandra as backend store. Cassandra and JanusGraph will use CQL only. 
+JanusGraph server can work with gremlin.sh client and any other customized gremlin client. This also works with gremlin-python. 
+The Janusgraph and Cassandra are taken from janusgraph-0.2.2-hadoop2. For python clients, use gremlin-python 3.2.9 drivers. One can write his own drivers also.
+
 
 ## Getting Started
 
@@ -52,8 +52,9 @@ To list all the images and containers use:
 make show
 ```
 
-If GNU Make utility is not insall , one can try:
-./build.sh script directory to create an docker image
+If GNU Make utility is not installed then docker image can be created by running build.sh script:
+```
+./build.sh
 ```
 
 
@@ -64,54 +65,78 @@ A step by step series of examples that tell you how to get a development env run
 Say what the step will be
 
 ```
-Give the example
+git clone 
 ```
 
 And repeat
 
 ```
-until finished
+cd JanusGraphServerDocker/
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
+Try below commands one by one.
+```
+make
+make run
+```
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
+```
+make test
+
+    graphtraversalsource[graph[empty]]
+    Add one more passenger named Zane
+    Add one  more airports
+    Total vertex i.e. airports and passengers
+    4
+    Total passenger count
+    2
+    All passengers
+    [vp[name->River], vp[name->Zane]]
+    Total airport count
+
+    2
+    All airports
+    [vp[name->IVE], vp[country->IND], vp[name->ANE], vp[country->IND]]
+```
+
 
 ### Break down into end to end tests
 
-Explain what these tests test and why
+make test will run test-gremlin-python.py script and add vertices and then it will print it.
 
 ```
-Give an example
+make test 
+or 
+python examples/test-gremlin-python.py
 ```
 
 ### And coding style tests
 
-Explain what these tests test and why
+nill
 
 ```
-Give an example
+nill
 ```
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
+This was tested on Ubuntu 16.04 LTS.
 
 ## Built With
 
 * [Dropasdfasdfwizard](http://www.dasdfasdfasdfropwizard.io/1.0.2/docs/) - The web framework used
 * [Maven](https://maven.apache.org/) - Dependency Management
-* [ROasdfasdfME](https://rometools.github.io/asdfasdfrome/) - Used to generate RSS Feeds
+* [ROasdfasdfME](https://rometools.github.io/singhservesh/) - Used to generate RSS Feeds
 
 ## Contributing
 
-Please read [CONTRIBadsfasdfUTING.md](https://gist.github.com/singhservesh/b2asdfasdf46794029asdf57c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+Please read [CONTRIBUTING.md](https://gist.github.com/singhservesh/b2asdfasdf46794029asdf57c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Versioning
 
-We use [SemiasdfasdfVer](http://seasdfmasdfasdfver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+We use [Pending](http://WorkInProgress.Infn.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/singhservesh/JanusGraph/tags). 
 
 ## Authors
 
