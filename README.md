@@ -13,10 +13,11 @@ Use examples to write gremlin queries using gremlin-python drivers.
 ### Prerequisites
 Please make sure that :
 ```
-1) docker is installed
+1) docker is installed.
 2) gremlin-pythong 3.2.9 is installed.
-3) Python is installed 
-4) GNU Make( optional )
+3) Python is installed.
+4) GNU Make( optional ).
+5) JRE is installed.
 
 ```
 
